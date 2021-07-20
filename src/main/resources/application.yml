@@ -1,7 +1,7 @@
 github:
   client:
-    id: cdf2146a1fa9d15ae81a
-    secret: 0558c9c2ff55f78586316505aa0dc403a58fc5a7
+    id: 2621a871020011aad38a
+    secret: 70ae172ca03595172acb6306b9bba8ddbcade7d9
   redirect:
     url: http://localhost:8080/callback
 
@@ -11,6 +11,8 @@ spring:
     url: jdbc:mysql://localhost:3306/community?useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: 7012+2
+  thymeleaf:
+    cache: false
 
 
 # 整合MyBatis

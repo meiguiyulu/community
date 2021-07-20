@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>玫瑰与鹿</title>
+    <title>发布</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap-theme.min.css}">
     <link rel="stylesheet" th:href="@{/css/community.css}">
@@ -18,7 +18,7 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">玫瑰与鹿</span>
                 </button>
-                <a class="navbar-brand" href="#">玫瑰与鹿</a>
+                <a class="navbar-brand" th:href="@{/}">玫瑰与鹿</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -35,9 +35,7 @@
                     </li>
                     <li class="dropdown" th:if="${session.user!=null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <span class="caret"></span>
-                            <span th:text="${session.user.getName()}"></span>
-                        </a>
+                            <span class="caret" th:text="${session.user.getName()}"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">消息中心</a></li>
                             <li><a href="#">个人资料</a></li>
@@ -45,9 +43,7 @@
                             <li><a href="#">退出登录</a></li>
                         </ul>
                     </li>
-                    <li th:if="${session.user==null}">
-                        <a href="https://github.com/login/oauth/authorize?client_id=cdf2146a1fa9d15ae81a&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a>
-                    </li>
+                    <li th:if="${session.user==null}"><a href="https://github.com/login/oauth/authorize?client_id=cdf2146a1fa9d15ae81a&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -55,38 +51,40 @@
     <div class="container-fluid main">
         <div class="row">
             <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-                <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                     发现
-                </h2>
+                <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
                 <hr>
-
-                <div class="media" th:each="question: ${questionDTOList}">
-                    <div class="media-left media-middle">
-                        <a href="#">
-                            <img class="media-object img-rounded"
-                                 th:src="${question.user.avatarURL}">
-                        </a>
+                <form action="/publish" method="post">
+                    <div class="form-group">
+                        <label for="title">问题标题(简单扼要):</label>
+                        <input type="text" class="form-control" id="title" name="title" th:value="${title}" placeholder="问题标题...">
                     </div>
-                    <div class="media-body">
-                        <h4 class="media-heading" th:text="${question.title}"></h4>
-                         <span th:text="${question.description}"></span><br>
-                        <span class="text-desc">
-                            <span th:text="${question.commentCount}"></span>个回复
-                            ·
-                            <span th:text="${question.viewCount}"></span>次浏览
-                            ·
-                            <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm:ss')}"></span>
-                        </span>
+                    <div class="form-group">
+                        <label for="description">问题补充:</label>
+                        <textarea class="form-control" cols="30" rows="10" id="description" th:text="${description}" name="description"></textarea>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="tag">添加标签:</label>
+                        <input type="text" class="form-control" id="tag" name="tag" th:value="${tag}" placeholder="输入标签(以','隔开)">
+                    </div>
 
+                    <div class="container-fluid main">
+                        <div class="row">
+                            <div class="alert alert-danger col-lg-8 col-md-12 col-sm-12 col-xs-12" th:text="${error}" th:if="${error!=null}"></div>
+                            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                <button type="submit" class="btn btn-success">
+                                    发布
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                <h3>热门话题</h3>
+                <h3>问题发起指南</h3>
             </div>
         </div>
     </div>
-
 
     <script type="application/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     <script type="application/javascript" th:src="@{/js/jquery-3.6.0.js}"></script>

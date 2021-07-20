@@ -23,6 +23,15 @@ public class User implements Serializable {
 
     private Long gmtModify;
 
+    private String avatarURL;
+
+    public String getAvatarURL() {
+        return avatarURL;
+    }
+
+    public void setAvatarURL(String avatarURL) {
+        this.avatarURL = avatarURL;
+    }
 
     public Integer getId() {
         return id;

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 /**
@@ -20,7 +22,7 @@ import java.util.UUID;
  * @create 2021-07-19 20:48
  */
 
-@RestController
+@Controller
 public class AuthorizeController {
 
     @Autowired
@@ -39,7 +41,8 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
-                           HttpServletRequest request){
+                           HttpServletRequest request,
+                           HttpServletResponse response){
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -48,25 +51,24 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
-        if (githubUser!=null){
+        if (githubUser!=null && githubUser.getId()!=null){
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModify(user.getGmtCreate());
+            user.setAvatarURL("https://avatars.githubusercontent.com/u/38106024?s=60&v=4");
             userMapper.insertUser(user);
-            // 登陆成功，写cookie和Session
-            request.getSession().setAttribute("user", githubUser);
-//            return "redirect:/";
+            response.addCookie(new Cookie("token", token));
             System.out.println("登陆成功");
-            return "登陆成功";
+            System.out.println(user.getName());
         } else {
             // 登录失败, 重新登陆
             System.out.println("登陆失败");
-            return "登陆失败";
-//            return "redirect:/";
         }
+        return "redirect:/";
     }
 
 }
