@@ -69,9 +69,12 @@
 
                     <div class="container-fluid main">
                         <div class="row">
-                            <div class="alert alert-danger col-lg-8 col-md-12 col-sm-12 col-xs-12" th:text="${error}" th:if="${error!=null}"></div>
+                            <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                                <div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${error}" th:if="${error!=null}">
+                                </div>
+                            </div>
                             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" class="btn btn-success btn-publish">
                                     发布
                                 </button>
                             </div>
@@ -86,7 +89,9 @@
         </div>
     </div>
 
+
+    <script type="application/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <script type="application/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-    <script type="application/javascript" th:src="@{/js/jquery-3.6.0.js}"></script>
+
 </body>
 </html>

@@ -39,7 +39,7 @@
                             <span th:text="${session.user.getName()}"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">消息中心</a></li>
+                            <li><a th:href="@{/profile/questions}">我的问题</a></li>
                             <li><a href="#">个人资料</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="#">退出登录</a></li>
@@ -60,7 +60,7 @@
                 </h2>
                 <hr>
 
-                <div class="media" th:each="question: ${questionDTOList}">
+                <div class="media" th:each="question: ${pageDTO.questions}">
                     <div class="media-left media-middle">
                         <a href="#">
                             <img class="media-object img-rounded"
@@ -79,6 +79,33 @@
                         </span>
                     </div>
                 </div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li th:if="${pageDTO.showFirstPage}">
+                            <a th:href="@{/(page=1)}">
+                                <span aria-hidden="true">&lt;&lt;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pageDTO.showPrevious}">
+                            <a th:href="@{/(page=${pageDTO.page-1})}" aria-label="Previous">
+                                <span aria-hidden="true">&lt;</span>
+                            </a>
+                        </li>
+                        <li th:each="page : ${pageDTO.pages}" th:class="${pageDTO.page==page}? 'active' : ''">
+                            <a th:href="@{/(page=${page})}" th:text="${page}"></a>
+                        </li>
+                        <li th:if="${pageDTO.showNext}">
+                            <a th:href="@{/(page=${pageDTO.page+1})}" aria-label="Next">
+                                <span aria-hidden="true">&gt;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pageDTO.showEndPage}">
+                            <a th:href="@{/(page=${pageDTO.totalPage})}">
+                                <span aria-hidden="true">&gt;&gt;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
 
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
@@ -88,7 +115,8 @@
     </div>
 
 
+    <script type="application/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <script type="application/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-    <script type="application/javascript" th:src="@{/js/jquery-3.6.0.js}"></script>
+
 </body>
 </html>

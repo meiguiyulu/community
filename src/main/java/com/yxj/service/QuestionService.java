@@ -1,5 +1,6 @@
 package com.yxj.service;
 
+import com.yxj.dto.PageDTO;
 import com.yxj.dto.QuestionDTO;
 import com.yxj.entity.Question;
 import com.yxj.entity.User;
@@ -26,9 +27,24 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<QuestionDTO> queryAll() {
-        List<Question> questions = questionMapper.queryAll();
+    public PageDTO queryAll(Integer page, Integer size) {
+
+        PageDTO pageDTO = new PageDTO();
+        Integer totalCount = questionMapper.count();
+        pageDTO.setPagination(totalCount, page, size);
+
+        if (page < 1){
+            page = 1;
+        }
+        if (page > pageDTO.getTotalPage()){
+            page = pageDTO.getTotalPage();
+        }
+
+        int offset = size * (page - 1);
+        List<Question> questions = questionMapper.queryAll(offset, size);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
+
+
         for (Question question: questions){
             User user = userMapper.findById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
@@ -37,6 +53,9 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
 
-        return questionDTOList;
+        pageDTO.setQuestions(questionDTOList);
+//        pageDTO.setPage(page);
+
+        return pageDTO;
     }
 }
