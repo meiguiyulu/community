@@ -30,7 +30,7 @@ public class IndexController {
     @Autowired
     private QuestionService questionService;
 
-    @RequestMapping("/")
+    @RequestMapping({"/", "/index"})
     public String hello(HttpServletRequest request, Model model,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
                         @RequestParam(name = "size", defaultValue = "2") Integer size){
