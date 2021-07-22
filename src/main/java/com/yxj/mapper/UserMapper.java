@@ -1,10 +1,7 @@
 package com.yxj.mapper;
 
 import com.yxj.entity.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 
 /**
@@ -25,4 +22,11 @@ public interface UserMapper {
 
     @Select("select * from user where id = #{id}")
     User findById(@Param("id")Integer id);
+
+    @Select("select * from user where account_id = #{accountId}")
+    User findByAccountId(String accountId);
+
+    @Update("update user set gmt_modify=#{gmtModify}, avatar_url=#{avatarURL}," +
+            "name=#{name}, token=#{token} where account_id = #{accountId}")
+    void update(User user);
 }

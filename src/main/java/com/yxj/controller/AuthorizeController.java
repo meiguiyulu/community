@@ -5,6 +5,7 @@ import com.yxj.dto.GithubUser;
 import com.yxj.entity.User;
 import com.yxj.mapper.UserMapper;
 import com.yxj.provider.GithubProvider;
+import com.yxj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -35,8 +36,9 @@ public class AuthorizeController {
     @Value("${github.redirect.url}")
     private String redirectUrl;
 
+
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -56,11 +58,9 @@ public class AuthorizeController {
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setName(githubUser.getName());
-            user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModify(user.getGmtCreate());
-            user.setAvatarURL("https://avatars.githubusercontent.com/u/38106024?s=60&v=4");
-            userMapper.insertUser(user);
+            user.setAccountId(String.valueOf(githubUser.getId()));;
+            user.setAvatarURL(githubUser.getAvatar_url());
+            userService.createOrUpdate(user);
             response.addCookie(new Cookie("token", token));
             System.out.println("登陆成功");
             System.out.println(user.getName());
@@ -68,6 +68,19 @@ public class AuthorizeController {
             // 登录失败, 重新登陆
             System.out.println("登陆失败");
         }
+        return "redirect:/";
+    }
+
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+        // 清除Session
+        request.getSession().removeAttribute("user");
+        // 清除cookie
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return "redirect:/";
     }
 

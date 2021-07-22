@@ -54,8 +54,6 @@ public class QuestionService {
         }
 
         pageDTO.setQuestions(questionDTOList);
-//        pageDTO.setPage(page);
-
         return pageDTO;
     }
 
@@ -87,5 +85,29 @@ public class QuestionService {
         pageDTO.setQuestions(questionDTOList);
 
         return pageDTO;
+    }
+
+    public QuestionDTO getById(int id) {
+        Question question = questionMapper.getById(id);
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(question, questionDTO);
+
+        User user = userMapper.findById(question.getCreator());
+        questionDTO.setUser(user);
+
+        return questionDTO;
+    }
+
+    public void createOrUpdate(Question question) {
+        if (question.getId() == null){
+            // 创建
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModify(question.getGmtCreate());
+            questionMapper.insertQuestion(question);
+        } else {
+            // 更新
+            question.setGmtModify(System.currentTimeMillis());
+            questionMapper.update(question);
+        }
     }
 }

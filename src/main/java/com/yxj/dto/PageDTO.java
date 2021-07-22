@@ -91,10 +91,11 @@ public class PageDTO {
             totalPage = totalCount / size + 1;
         }
 
-        if (page<1){
+        if (page < 1){
             page = 1;
         }
-        if (page>totalPage){
+
+        if (page > totalPage){
             page = totalPage;
         }
         this.page = page;
@@ -109,15 +110,14 @@ public class PageDTO {
             }
         }
 
-
         // 是否展示上一页
         if (page == 1){
             showPrevious = false;
         } else {
-            showFirstPage = true;
+            showPrevious = true;
         }
         // 是否展示下一页
-        if (page == totalPage){
+        if (page.equals(totalPage)){
             showNext = false;
         } else {
             showNext = true;
