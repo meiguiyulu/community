@@ -3,6 +3,7 @@
 ## 工具
 [Github OAuth](https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app)
 [OKHttp](https://square.github.io/okhttp/)
+[MyBatis Generator](http://mybatis.org/generator/index.html)
 
 
 ## 脚本
@@ -28,3 +29,10 @@ alter table user
     
     
 ```
+
+```bash
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate```
+
+
+## 阅读数量
+解决多并发下的问题: 

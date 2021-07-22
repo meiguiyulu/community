@@ -1,9 +1,13 @@
 package com.yxj.service;
 
+import com.mysql.cj.util.StringUtils;
 import com.yxj.dto.PageDTO;
 import com.yxj.dto.QuestionDTO;
 import com.yxj.entity.Question;
 import com.yxj.entity.User;
+import com.yxj.exception.CustomizeErrorCode;
+import com.yxj.exception.CustomizeException;
+import com.yxj.exception.MyErrorCode;
 import com.yxj.mapper.QuestionMapper;
 import com.yxj.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;
@@ -89,6 +93,9 @@ public class QuestionService {
 
     public QuestionDTO getById(int id) {
         Question question = questionMapper.getById(id);
+        if (question == null){
+            throw new CustomizeException(MyErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
 
@@ -107,7 +114,14 @@ public class QuestionService {
         } else {
             // 更新
             question.setGmtModify(System.currentTimeMillis());
-            questionMapper.update(question);
+            int updated = questionMapper.update(question);
+            if (updated != 1){
+                throw new CustomizeException(MyErrorCode.QUESTION_NOT_FOUND);
+            }
         }
+    }
+
+    public void incrementViewCount(int id) {
+        questionMapper.updateViewCount(id);
     }
 }
