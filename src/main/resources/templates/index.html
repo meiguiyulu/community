@@ -6,8 +6,18 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap-theme.min.css}">
     <link rel="stylesheet" th:href="@{/css/community.css}">
-
 </head>
+
+<script type="application/javascript">
+    window.onload = function () {
+        const closable = window.localStorage.getItem("closable");
+        if (closable == "true"){
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
+
 <body>
     <!--头部的导航条-->
     <div th:replace="~{common/navigation::topbar}"></div>
@@ -24,8 +34,8 @@
                     <div class="media-left media-middle">
                         <a href="#">
                             <img class="media-object img-rounded"
-                                 th:src="${question.user.avatarURL}">
-                            <!--${question.user.avatarURL}-->
+                                 th:src="${question.user.avatarUrl}">
+                            <!--${question.user.avatarUrl}-->
                         </a>
                     </div>
                     <div class="media-body">

@@ -1,5 +1,6 @@
 package com.yxj.controller;
 
+import com.mysql.cj.util.StringUtils;
 import com.yxj.dto.QuestionDTO;
 import com.yxj.entity.Question;
 import com.yxj.entity.User;
@@ -7,10 +8,7 @@ import com.yxj.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,13 +44,15 @@ public class PublishController {
     }
 
     @PostMapping("/publish")
+//    @RequestMapping(value = "/publish", method = RequestMethod.POST)
     public String doPublish(
             @RequestParam(value = "title") String title,
             @RequestParam(value = "description") String description,
             @RequestParam(value = "tag") String tag,
-            @RequestParam(value = "id") int id,
+            @RequestParam(value = "id") String id,
             HttpServletRequest request,
             Model model){
+
 
         model.addAttribute("title", title);
         model.addAttribute("description", description);
@@ -71,7 +71,6 @@ public class PublishController {
             return "/publish";
         }
 
-
         User user = (User) request.getSession().getAttribute("user");
         if (user==null){
             model.addAttribute("error", "用户未登录");
@@ -84,7 +83,11 @@ public class PublishController {
         question.setTag(tag);
         question.setCreator(user.getId());
         // id可能为空
-        question.setId(id);
+        if (StringUtils.isNullOrEmpty(id)){
+            question.setId(-1);
+        } else {
+            question.setId(Integer.valueOf(id));
+        }
 
         questionService.createOrUpdate(question);
 

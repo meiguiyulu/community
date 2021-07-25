@@ -8,4 +8,6 @@ public interface CustomizeErrorCode {
 
     String getMessage();
 
+    Integer getCode();
+
 }

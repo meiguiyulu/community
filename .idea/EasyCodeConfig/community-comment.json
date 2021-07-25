@@ -1,5 +1,5 @@
 {
-  "name" : "User",
+  "name" : "Comment",
   "preName" : "",
   "comment" : null,
   "templateGroupName" : "Default",
@@ -11,21 +11,21 @@
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "accountId",
+    "name" : "parentId",
     "comment" : null,
     "type" : null,
     "shortType" : null,
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "name",
+    "name" : "type",
     "comment" : null,
     "type" : null,
     "shortType" : null,
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "token",
+    "name" : "commentator",
     "comment" : null,
     "type" : null,
     "shortType" : null,
@@ -46,14 +46,14 @@
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "bio",
+    "name" : "likeCount",
     "comment" : null,
     "type" : null,
     "shortType" : null,
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "avatarUrl",
+    "name" : "content",
     "comment" : null,
     "type" : null,
     "shortType" : null,
@@ -62,7 +62,7 @@
   } ],
   "pkColumn" : null,
   "otherColumn" : null,
-  "savePackageName" : "",
+  "savePackageName" : "com.yxj",
   "savePath" : "./src/main/java/com/yxj",
   "saveModelName" : "community"
 }

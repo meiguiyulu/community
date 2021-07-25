@@ -1,11 +1,9 @@
 package com.yxj.service;
 
-import com.mysql.cj.util.StringUtils;
 import com.yxj.dto.PageDTO;
 import com.yxj.dto.QuestionDTO;
 import com.yxj.entity.Question;
 import com.yxj.entity.User;
-import com.yxj.exception.CustomizeErrorCode;
 import com.yxj.exception.CustomizeException;
 import com.yxj.exception.MyErrorCode;
 import com.yxj.mapper.QuestionMapper;
@@ -106,10 +104,13 @@ public class QuestionService {
     }
 
     public void createOrUpdate(Question question) {
-        if (question.getId() == null){
+        if (question.getId() == -1){
             // 创建
             question.setGmtCreate(System.currentTimeMillis());
-            question.setGmtModify(question.getGmtCreate());
+            question.setGmtModify(System.currentTimeMillis());
+            question.setViewCount(0);
+            question.setCommentCount(0);
+            question.setLikeCount(0);
             questionMapper.insertQuestion(question);
         } else {
             // 更新
@@ -121,7 +122,8 @@ public class QuestionService {
         }
     }
 
-    public void incrementViewCount(int id) {
-        questionMapper.updateViewCount(id);
+    public void incrementViewCount(int id, int updateStep) {
+        questionMapper.updateViewCount(id, updateStep);
     }
+
 }

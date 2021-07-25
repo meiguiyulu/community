@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.*;
 public interface UserMapper {
 
     @Insert("insert into user(account_id, name, token, gmt_create, gmt_modify, avatar_url) " +
-            "values (#{accountId}, #{name}, #{token}, #{gmtCreate}, #{gmtModify}, #{avatarURL})")
+            "values (#{accountId}, #{name}, #{token}, #{gmtCreate}, #{gmtModify}, #{avatarUrl})")
     void insertUser(User user);
 
 
@@ -26,7 +26,7 @@ public interface UserMapper {
     @Select("select * from user where account_id = #{accountId}")
     User findByAccountId(String accountId);
 
-    @Update("update user set gmt_modify=#{gmtModify}, avatar_url=#{avatarURL}," +
+    @Update("update user set gmt_modify=#{gmtModify}, avatar_url=#{avatarUrl}," +
             "name=#{name}, token=#{token} where account_id = #{accountId}")
     void update(User user);
 }

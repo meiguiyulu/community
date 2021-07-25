@@ -6,10 +6,10 @@ import java.io.Serializable;
  * (Question)实体类
  *
  * @author makejava
- * @since 2021-07-20 15:56:10
+ * @since 2021-07-23 11:10:17
  */
 public class Question implements Serializable {
-    private static final long serialVersionUID = -46388552258605526L;
+    private static final long serialVersionUID = 779585001774852291L;
 
     private Integer id;
 

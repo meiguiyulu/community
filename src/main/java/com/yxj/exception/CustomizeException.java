@@ -7,11 +7,14 @@ package com.yxj.exception;
 public class CustomizeException extends RuntimeException{
 
     private String msg;
-    public CustomizeException(String msg){
-        this.msg = msg;
+    private Integer code;
+
+    public Integer getCode() {
+        return code;
     }
 
     public CustomizeException(CustomizeErrorCode errorCode){
+        this.code = errorCode.getCode();
         this.msg = errorCode.getMessage();
     }
 

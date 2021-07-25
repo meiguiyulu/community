@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-
 import java.util.List;
 
 /**
@@ -39,6 +38,13 @@ public interface QuestionMapper {
             "tag=#{tag} where id = #{id}")
     int update(Question question);
 
-    @Update("update question set view_count = view_count + 1 where id = #{id}")
-    void updateViewCount(int id);
+    @Update("update question set view_count = view_count + #{updateStep} where id = #{id}")
+    void updateViewCount(int id, int updateStep);
+
+    @Select("select * from question where id = #{id}")
+    Question selectById(Integer id);
+
+
+    @Update("update question set comment_count = comment_count + #{updateStep} where id = #{id}")
+    void incCommentCount(Integer id, int updateStep);
 }

@@ -4,7 +4,7 @@
 [Github OAuth](https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app)
 [OKHttp](https://square.github.io/okhttp/)
 [MyBatis Generator](http://mybatis.org/generator/index.html)
-
+[POSTMAN](https://www.postman.com/downloads/)
 
 ## 脚本
 ```sql
@@ -35,4 +35,10 @@ mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate```
 
 
 ## 阅读数量
-解决多并发下的问题: 
+解决多并发下的问题
+
+
+## 2020、07、24
+实现评论功能以后出现的问题：
+    因为评论使用的是JSON格式, CustomizeExceptionHandler类会判断提交的格式, 但是新建问题那个地方用的是form表单的形式, 所以一直判断
+出错。
