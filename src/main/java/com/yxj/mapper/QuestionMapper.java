@@ -32,7 +32,7 @@ public interface QuestionMapper {
     Integer countByUseId(Integer userId);
 
     @Select("select * from question where id = #{id}")
-    Question getById(int id);
+    Question getByPrimaryKey(int id);
 
     @Update("update question set title=#{title}, description=#{description}, gmt_modify=#{gmtModify}," +
             "tag=#{tag} where id = #{id}")
@@ -41,8 +41,6 @@ public interface QuestionMapper {
     @Update("update question set view_count = view_count + #{updateStep} where id = #{id}")
     void updateViewCount(int id, int updateStep);
 
-    @Select("select * from question where id = #{id}")
-    Question selectById(Integer id);
 
 
     @Update("update question set comment_count = comment_count + #{updateStep} where id = #{id}")

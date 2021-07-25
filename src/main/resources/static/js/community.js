@@ -31,11 +31,11 @@ function comment2target(targetId, type, content) {
                 window.location.reload();
             } else {
                 if (response.code == 2003) {
-                    var isAccepted = confirm(response.message);
+                    const isAccepted = confirm(response.message);
                     if (isAccepted) {
-                        // $('#myModal').modal({});
-                        window.open("https://github.com/login/oauth/authorize?client_id=7f316909bf70d1eaa2b2&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
-                        window.localStorage.setItem("closable", true);
+                        $('#myModal').modal({});
+                        // window.open("https://github.com/login/oauth/authorize?client_id=7f316909bf70d1eaa2b2&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
+                        // window.localStorage.setItem("closable", true);
                     }
                 } else {
                     alert(response.message);
@@ -47,8 +47,8 @@ function comment2target(targetId, type, content) {
 }
 
 function comment(e) {
-    var commentId = e.getAttribute("data-id");
-    var content = $("#input-" + commentId).val();
+    const commentId = e.getAttribute("data-id");
+    const content = $("#input-" + commentId).val();
     comment2target(commentId, 2, content);
 }
 
@@ -56,18 +56,18 @@ function comment(e) {
  * 展开二级评论
  */
 function collapseComments(e) {
-    var id = e.getAttribute("data-id");
-    var comments = $("#comment-" + id);
+    const id = e.getAttribute("data-id");
+    const comments = $("#comment-" + id);
 
     // 获取一下二级评论的展开状态
-    var collapse = e.getAttribute("data-collapse");
+    const collapse = e.getAttribute("data-collapse");
     if (collapse) {
         // 折叠二级评论
         comments.removeClass("in");
         e.removeAttribute("data-collapse");
         e.classList.remove("active");
     } else {
-        var subCommentContainer = $("#comment-" + id);
+        const subCommentContainer = $("#comment-" + id);
         if (subCommentContainer.children().length != 1) {
             //展开二级评论
             comments.addClass("in");
@@ -77,14 +77,14 @@ function collapseComments(e) {
         } else {
             $.getJSON("/comment/" + id, function (data) {
                 $.each(data.data.reverse(), function (index, comment) {
-                    var mediaLeftElement = $("<div/>", {
+                    const mediaLeftElement = $("<div/>", {
                         "class": "media-left"
                     }).append($("<img/>", {
                         "class": "media-object img-rounded",
                         "src": comment.user.avatarUrl
                     }));
 
-                    var mediaBodyElement = $("<div/>", {
+                    const mediaBodyElement = $("<div/>", {
                         "class": "media-body"
                     }).append($("<h5/>", {
                         "class": "media-heading",
@@ -98,11 +98,11 @@ function collapseComments(e) {
                         "html": moment(comment.gmtCreate).format('YYYY-MM-DD')
                     })));
 
-                    var mediaElement = $("<div/>", {
+                    const mediaElement = $("<div/>", {
                         "class": "media"
                     }).append(mediaLeftElement).append(mediaBodyElement);
 
-                    var commentElement = $("<div/>", {
+                    const commentElement = $("<div/>", {
                         "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 comments"
                     }).append(mediaElement);
 
@@ -123,12 +123,12 @@ function showSelectTag() {
 }
 
 function selectTag(e) {
-    var value = e.getAttribute("data-tag");
-    var previous = $("#tag").val();
+    const value = e.getAttribute("data-tag");
+    const previous = $("#tag").val();
 
     if (previous) {
-        var index = 0;
-        var appear = false; //记录value是否已经作为一个独立的标签出现过
+        let index = 0;
+        let appear = false; //记录value是否已经作为一个独立的标签出现过
         while (true) {
             index = previous.indexOf(value, index); //value字符串在previous中出现的位置
             if (index == -1) break;
@@ -146,8 +146,7 @@ function selectTag(e) {
             //若value没有作为一个独立的标签出现过
             $("#tag").val(previous + ',' + value);
         }
-    }
-    else {
+    } else {
         $("#tag").val(value);
     }
 }

@@ -50,25 +50,31 @@ public class CommentService {
 
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()){
             // 回复评论
-            List<Comment> dbComments = commentMapper.selectByParentId(comment.getParentId());
-            if (dbComments == null){
+//            List<Comment> dbComments = commentMapper.selectByParentId(comment.getParentId());
+            Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
+            if (dbComment == null){
                 throw new CustomizeException(MyErrorCode.COMMENT_NOT_FOUND);
             }
+            dbComment.setCommentCount(1);
+            commentMapper.incCommentCount(dbComment);
+            comment.setCommentCount(0);
+            commentMapper.insert(comment);
 
         } else {
             // 回复问题
-            Question question = questionMapper.selectById(comment.getParentId());
+            Question question = questionMapper.getByPrimaryKey(comment.getParentId());
             if (question == null){
                 throw new CustomizeException(MyErrorCode.QUESTION_NOT_FOUND);
             }
             int updateStep = 1;
             questionMapper.incCommentCount(question.getId(), updateStep);
+            comment.setCommentCount(0);
+            commentMapper.insert(comment);
         }
-        commentMapper.insert(comment);
+
     }
 
     public List<CommentDTO> listByQuestionId(int id, CommentTypeEnum type) {
-
 
         List<Comment> comments = commentMapper.selectByParentIdAndType(id, type.getType());
         if (comments.size() == 0){
@@ -96,5 +102,34 @@ public class CommentService {
         }
 
         return commentDTOS;
+    }
+
+    public List<CommentDTO> getByType(CommentTypeEnum comment) {
+        List<Comment> commentList = commentMapper.selectByType(comment.getType());
+        if (commentList.size() == 0){
+            return new ArrayList<>();
+        }
+        List<CommentDTO> commentDTOList = new ArrayList<>();
+        // 所有的评论者
+        List<Integer> commentator = new ArrayList<>();
+        for (Comment dbComment: commentList){
+            if (!commentator.contains(dbComment.getCommentator())){
+                commentator.add(dbComment.getCommentator());
+            }
+        }
+
+        for (Integer useId: commentator){
+            User user = userMapper.findById(useId);
+            List<Comment> comments = commentMapper.selectByCommentatorId(useId);
+            if (comments.size()!=0){
+                for (Comment comment1: commentList){
+                    CommentDTO commentDTO = new CommentDTO();
+                    BeanUtils.copyProperties(comment1, commentDTO);
+                    commentDTO.setUser(user);
+                    commentDTOList.add(commentDTO);
+                }
+            }
+        }
+        return commentDTOList;
     }
 }

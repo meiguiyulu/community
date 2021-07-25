@@ -36,8 +36,13 @@ public class QuestionController {
 
         List<CommentDTO> commentDTOS = commentService.listByQuestionId(id, CommentTypeEnum.QUESTION);
 
+        List<CommentDTO> commentTypeComment = commentService.getByType(CommentTypeEnum.COMMENT);
+
         model.addAttribute("questionDTO", questionDTO);
         model.addAttribute("comments", commentDTOS);
+        model.addAttribute("commentTypeComments", commentTypeComment);
+        System.out.println("QuestionController===============>question");
+        System.out.println(commentTypeComment);
         return "question";
     }
 

@@ -6,7 +6,8 @@ package com.yxj.enums;
  */
 public enum CommentTypeEnum {
     QUESTION(1),
-    COMMENT(2);
+    COMMENT(2),
+    ;
     private Integer type;
 
     public static boolean isExist(Integer type) {

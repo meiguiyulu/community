@@ -6,10 +6,10 @@ import java.io.Serializable;
  * (Comment)实体类
  *
  * @author makejava
- * @since 2021-07-23 11:10:09
+ * @since 2021-07-25 10:56:09
  */
 public class Comment implements Serializable {
-    private static final long serialVersionUID = -75846705107584494L;
+    private static final long serialVersionUID = 271955802903987233L;
 
     private Integer id;
     /**
@@ -17,7 +17,7 @@ public class Comment implements Serializable {
      */
     private Integer parentId;
     /**
-     * 父类类型
+     * 父类类型 1代表回复问题; 2代表回复评论
      */
     private Integer type;
     /**
@@ -38,6 +38,10 @@ public class Comment implements Serializable {
     private Long likeCount;
 
     private String content;
+    /**
+     * 评论数
+     */
+    private Integer commentCount;
 
 
     public Integer getId() {
@@ -104,17 +108,12 @@ public class Comment implements Serializable {
         this.content = content;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", parentId=" + parentId +
-                ", type=" + type +
-                ", commentator=" + commentator +
-                ", gmtCreate=" + gmtCreate +
-                ", gmtModify=" + gmtModify +
-                ", likeCount=" + likeCount +
-                ", content='" + content + '\'' +
-                '}';
+    public Integer getCommentCount() {
+        return commentCount;
     }
+
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
+    }
+
 }

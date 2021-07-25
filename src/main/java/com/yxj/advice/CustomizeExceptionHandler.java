@@ -20,6 +20,7 @@ import java.io.PrintWriter;
  */
 
 
+/*
 @ControllerAdvice
 public class CustomizeExceptionHandler {
 
@@ -60,3 +61,4 @@ public class CustomizeExceptionHandler {
         }
     }
 }
+*/

@@ -38,7 +38,18 @@ public class CommentDTO {
      * 评论内容
      */
     private String content;
+    /**
+     * 该评论的评论数
+     */
+    private Integer commentCount;
 
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
+    }
 
     private User user;
 
@@ -112,5 +123,21 @@ public class CommentDTO {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "CommentDTO{" +
+                "id=" + id +
+                ", parentId=" + parentId +
+                ", type=" + type +
+                ", commentator=" + commentator +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModify=" + gmtModify +
+                ", likeCount=" + likeCount +
+                ", content='" + content + '\'' +
+                ", commentCount=" + commentCount +
+                ", user=" + user +
+                '}';
     }
 }

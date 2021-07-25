@@ -90,7 +90,7 @@ public class QuestionService {
     }
 
     public QuestionDTO getById(int id) {
-        Question question = questionMapper.getById(id);
+        Question question = questionMapper.getByPrimaryKey(id);
         if (question == null){
             throw new CustomizeException(MyErrorCode.QUESTION_NOT_FOUND);
         }
