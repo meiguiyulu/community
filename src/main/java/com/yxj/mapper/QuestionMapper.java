@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public interface QuestionMapper {
             "values(#{title}, #{description}, #{gmtCreate}, #{gmtModify}, #{creator}, #{commentCount}, #{viewCount}, #{likeCount}, #{tag})")
     void insertQuestion(Question question);
 
-    @Select("select * from question limit #{offset},#{size}")
+    @Select("select * from question order by gmt_create desc limit #{offset},#{size}")
     List<Question> queryAll(int offset, Integer size);
 
     @Select("select count(1) from question")
@@ -41,8 +42,9 @@ public interface QuestionMapper {
     @Update("update question set view_count = view_count + #{updateStep} where id = #{id}")
     void updateViewCount(int id, int updateStep);
 
-
-
     @Update("update question set comment_count = comment_count + #{updateStep} where id = #{id}")
     void incCommentCount(Integer id, int updateStep);
+
+    @Select("select * from question where id != #{id} and tag regexp #{tag}")
+    List<Question> selectRelatedTag(Question question);
 }

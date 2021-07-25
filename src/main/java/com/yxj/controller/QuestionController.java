@@ -38,11 +38,13 @@ public class QuestionController {
 
         List<CommentDTO> commentTypeComment = commentService.getByType(CommentTypeEnum.COMMENT);
 
+        List<QuestionDTO> relatedTagQuestions = questionService.selectRelatedTag(questionDTO);
+
+
         model.addAttribute("questionDTO", questionDTO);
         model.addAttribute("comments", commentDTOS);
         model.addAttribute("commentTypeComments", commentTypeComment);
-        System.out.println("QuestionController===============>question");
-        System.out.println(commentTypeComment);
+        model.addAttribute("relatedTagQuestions", relatedTagQuestions);
         return "question";
     }
 

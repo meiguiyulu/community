@@ -1,5 +1,6 @@
 package com.yxj.service;
 
+import com.mysql.cj.util.StringUtils;
 import com.yxj.dto.PageDTO;
 import com.yxj.dto.QuestionDTO;
 import com.yxj.entity.Question;
@@ -126,4 +127,27 @@ public class QuestionService {
         questionMapper.updateViewCount(id, updateStep);
     }
 
+    public List<QuestionDTO> selectRelatedTag(QuestionDTO questionDTO) {
+        if (StringUtils.isNullOrEmpty(questionDTO.getTag())){
+            return new ArrayList<>();
+        }
+
+        String tags = questionDTO.getTag().replace(',', '|');
+
+        Question question = new Question();
+        question.setId(questionDTO.getId());
+        question.setTag(tags);
+
+
+        List<Question> questions = questionMapper.selectRelatedTag(question);
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+
+        for (Question question1: questions){
+            QuestionDTO questionDTO1 = new QuestionDTO();
+            BeanUtils.copyProperties(question1, questionDTO1);
+            questionDTOList.add(questionDTO1);
+        }
+
+        return questionDTOList;
+    }
 }
