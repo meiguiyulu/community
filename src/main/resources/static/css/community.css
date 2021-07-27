@@ -161,9 +161,13 @@ body {
 
 .footer {
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
     color: #666;;
     padding: 0 0 15px 0;
+}
+.footer .font {
+    font-size: 15px;
+    font-family: 华文行楷;
 }
 
 .red {

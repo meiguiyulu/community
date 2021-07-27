@@ -22,3 +22,12 @@ mybatis:
     map-underscore-to-camel-case: true
 #  mapper-locations: classpath:com/yxj/mapper/*.xml
 
+# 日志
+logging:
+  file:
+    name: logs/community.log
+  level: info
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 3

@@ -54,11 +54,12 @@ public class QuestionService {
         pageDTO.setPagination(totalCount, page, size);
 
 
-        if (page < 1){
-            page = 1;
-        }
         if (page > pageDTO.getTotalPage()){
             page = pageDTO.getTotalPage();
+        }
+
+        if (page < 1){
+            page = 1;
         }
 
         int offset = size * (page - 1);
