@@ -7,9 +7,9 @@ import java.util.List;
  * @author LYJ
  * @create 2021-07-20 22:06
  */
-public class PageDTO {
+public class PageDTO<T> {
 
-    private List<QuestionDTO> questions;
+    private List<T> data;
     private Boolean showPrevious;
     private Boolean showFirstPage;
     private Boolean showNext;
@@ -27,12 +27,12 @@ public class PageDTO {
         this.totalPage = totalPage;
     }
 
-    public List<QuestionDTO> getQuestions() {
-        return questions;
+    public List<T> getData() {
+        return data;
     }
 
-    public void setQuestions(List<QuestionDTO> questions) {
-        this.questions = questions;
+    public void setData(List<T> data) {
+        this.data = data;
     }
 
     public Boolean getShowPrevious() {

@@ -1,5 +1,6 @@
 package com.yxj.controller;
 
+import com.mysql.cj.util.StringUtils;
 import com.yxj.dto.PageDTO;
 import com.yxj.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,17 @@ public class IndexController {
     private QuestionService questionService;
 
     @RequestMapping({"/", "/index"})
-    public String hello(HttpServletRequest request, Model model,
+    public String hello(Model model,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
-                        @RequestParam(name = "size", defaultValue = "5") Integer size){
+                        @RequestParam(name = "size", defaultValue = "5") Integer size,
+                        @RequestParam(name = "search", required = false) String search){
 
-        PageDTO pageDTO = questionService.queryAll(page, size);
+        PageDTO pageDTO = questionService.queryAll(search, page, size);
         model.addAttribute("pageDTO", pageDTO);
 
+        if (!StringUtils.isNullOrEmpty(search)){
+            model.addAttribute("search", search);
+        }
         return "index";
     }
 

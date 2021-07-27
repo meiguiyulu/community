@@ -1,7 +1,9 @@
 package com.yxj.interceptor;
 
 import com.yxj.entity.User;
+import com.yxj.mapper.NotificationMapper;
 import com.yxj.mapper.UserMapper;
+import com.yxj.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -22,6 +24,9 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
@@ -32,6 +37,9 @@ public class SessionInterceptor implements HandlerInterceptor {
                     User user = userMapper.fingByToken(token);
                     if (user != null){
                         request.getSession().setAttribute("user", user);
+                        // 查询未读的数量
+                        Integer unreadCount = notificationService.unreadCount(user.getId());
+                        request.getSession().setAttribute("unreadCount", unreadCount);
                     }
                     break;
                 }

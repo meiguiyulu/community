@@ -24,13 +24,13 @@ import java.util.List;
 @Controller
 public class CommentController {
 
-
     @Autowired
     private CommentService commentService;
 
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public Object post(@RequestBody CommentCreateDTO commentCreateDTO, HttpServletRequest request){
+    public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
+                       HttpServletRequest request){
 
         User user = (User) request.getSession().getAttribute("user");
         if (user == null){
@@ -48,9 +48,7 @@ public class CommentController {
         comment.setGmtModify(System.currentTimeMillis());
         comment.setCommentator(user.getId());
         comment.setLikeCount(0L);
-//        comment.setCommentCount(0);
-        commentService.insert(comment);
-
+        commentService.insert(comment, user);
         return ResultDTO.OkOf();
     }
 

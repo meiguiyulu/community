@@ -1,3 +1,4 @@
+/*
 package com.yxj.advice;
 
 import com.alibaba.fastjson.JSON;
@@ -14,13 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+*/
 /**
  * @author LYJ
  * @create 2021-07-22 16:21
- */
+ *//*
 
 
-/*
+
 @ControllerAdvice
 public class CustomizeExceptionHandler {
 

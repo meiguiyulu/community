@@ -30,11 +30,29 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
-    public PageDTO queryAll(Integer page, Integer size) {
+    public PageDTO queryAll(String search, Integer page, Integer size) {
+
+        boolean isSearchEmpty = true;
+
+
+        if (!StringUtils.isNullOrEmpty(search)){
+            search = search.replace(' ', '|');
+            isSearchEmpty = false;
+        }
 
         PageDTO pageDTO = new PageDTO();
-        Integer totalCount = questionMapper.count();
+        Integer totalCount;
+
+        if (isSearchEmpty){
+            // 如果没有搜索
+            totalCount = questionMapper.count();
+        } else {
+            // 如果有搜索
+            totalCount = questionMapper.countBySearch(search);
+        }
+
         pageDTO.setPagination(totalCount, page, size);
+
 
         if (page < 1){
             page = 1;
@@ -44,7 +62,16 @@ public class QuestionService {
         }
 
         int offset = size * (page - 1);
-        List<Question> questions = questionMapper.queryAll(offset, size);
+
+        List<Question> questions;
+        if (isSearchEmpty){
+            // 如果没有搜索
+            questions = questionMapper.queryAll(offset, size);
+        } else {
+            // 如果有搜索
+            questions = questionMapper.queryAllBySearch(search, offset, size);
+        }
+
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
 
@@ -56,12 +83,12 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
 
-        pageDTO.setQuestions(questionDTOList);
+        pageDTO.setData(questionDTOList);
         return pageDTO;
     }
 
     public PageDTO queryByUserId(Integer userId, Integer page, Integer size) {
-        PageDTO pageDTO = new PageDTO();
+        PageDTO<QuestionDTO> pageDTO = new PageDTO<>();
         Integer totalCount = questionMapper.countByUseId(userId);
         pageDTO.setPagination(totalCount, page, size);
 
@@ -85,7 +112,7 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
 
-        pageDTO.setQuestions(questionDTOList);
+        pageDTO.setData(questionDTOList);
 
         return pageDTO;
     }

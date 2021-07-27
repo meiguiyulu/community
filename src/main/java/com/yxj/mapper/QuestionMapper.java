@@ -20,13 +20,13 @@ public interface QuestionMapper {
             "values(#{title}, #{description}, #{gmtCreate}, #{gmtModify}, #{creator}, #{commentCount}, #{viewCount}, #{likeCount}, #{tag})")
     void insertQuestion(Question question);
 
-    @Select("select * from question order by gmt_create desc limit #{offset},#{size}")
+    @Select("select * from question order by gmt_create desc limit #{offset}, #{size}")
     List<Question> queryAll(int offset, Integer size);
 
     @Select("select count(1) from question")
     int count();
 
-    @Select("select * from question where creator = ${userId} limit #{offset},#{size}")
+    @Select("select * from question where creator = ${userId} order by gmt_create desc limit #{offset},c#{size}")
     List<Question> queryByUserId(Integer userId, int offset, Integer size);
 
     @Select("select count(1) from question where creator = #{userId}")
@@ -47,4 +47,10 @@ public interface QuestionMapper {
 
     @Select("select * from question where id != #{id} and tag regexp #{tag}")
     List<Question> selectRelatedTag(Question question);
+
+    @Select("select count(1) from question where title regexp #{search}")
+    Integer countBySearch(String search);
+
+    @Select("select * from question where title regexp #{search} order by gmt_create desc limit #{offset}, #{size}")
+    List<Question> queryAllBySearch(String search, int offset, Integer size);
 }
