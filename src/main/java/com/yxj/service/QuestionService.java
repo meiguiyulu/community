@@ -30,26 +30,35 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
-    public PageDTO queryAll(String search, Integer page, Integer size) {
+    public PageDTO queryAll(String search, String tag, Integer page, Integer size) {
 
         boolean isSearchEmpty = true;
-
+        boolean isTagEmpty = true;
 
         if (!StringUtils.isNullOrEmpty(search)){
             search = search.replace(' ', '|');
             isSearchEmpty = false;
         }
 
-        PageDTO pageDTO = new PageDTO();
-        Integer totalCount;
-
-        if (isSearchEmpty){
-            // 如果没有搜索
-            totalCount = questionMapper.count();
-        } else {
-            // 如果有搜索
-            totalCount = questionMapper.countBySearch(search);
+        if (!StringUtils.isNullOrEmpty(tag)){
+            isTagEmpty = false;
         }
+
+        PageDTO pageDTO = new PageDTO();
+        Integer totalCount = 0;
+
+        if (isSearchEmpty && isTagEmpty){
+            // 如果没有搜索 并且没有传入标签
+            totalCount = questionMapper.count();
+        } else if (!isSearchEmpty && isTagEmpty){
+                // 如果有搜索 没有标签
+                totalCount = questionMapper.countBySearch(search);
+        } else if (isSearchEmpty && !isTagEmpty){
+            totalCount = questionMapper.countByTag(tag);
+        } else {
+            totalCount = questionMapper.countBySearchAndTag(search, tag);
+        }
+
 
         pageDTO.setPagination(totalCount, page, size);
 
@@ -64,13 +73,17 @@ public class QuestionService {
 
         int offset = size * (page - 1);
 
-        List<Question> questions;
-        if (isSearchEmpty){
-            // 如果没有搜索
+        List<Question> questions = null;
+        if (isSearchEmpty && isTagEmpty){
+            // 如果没有搜索 没有标签
             questions = questionMapper.queryAll(offset, size);
-        } else {
-            // 如果有搜索
+        } else if (!isSearchEmpty && isTagEmpty){
+            // 如果有搜索 没有标签
             questions = questionMapper.queryAllBySearch(search, offset, size);
+        } else if (isSearchEmpty && !isTagEmpty){
+            questions = questionMapper.queryAllByTag(tag, offset, size);
+        } else {
+            questions = questionMapper.queryAllBySearchAndTag(search, tag, offset, size);
         }
 
         List<QuestionDTO> questionDTOList = new ArrayList<>();

@@ -26,7 +26,8 @@ mybatis:
 logging:
   file:
     name: logs/community.log
-  level: info
+  level:
+    root: info
   logback:
     rollingpolicy:
       max-file-size: 10MB

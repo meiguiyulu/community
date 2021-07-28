@@ -53,4 +53,16 @@ public interface QuestionMapper {
 
     @Select("select * from question where title regexp #{search} order by gmt_create desc limit #{offset}, #{size}")
     List<Question> queryAllBySearch(String search, int offset, Integer size);
+
+    @Select("select count(1) from question where tag regexp #{tag}")
+    Integer countByTag(String tag);
+
+    @Select("select * from question where tag regexp #{tag} order by gmt_create desc limit #{offset}, #{size}")
+    List<Question> queryAllByTag(String tag, int offset, Integer size);
+
+    @Select("select count(1) from question where title regexp #{search} and tag regexp #{tag}")
+    Integer countBySearchAndTag(String search, String tag);
+
+    @Select("select * from question where title regexp #{search} and tag regexp #{tag} order by gmt_create desc limit #{offset}, #{size}")
+    List<Question> queryAllBySearchAndTag(String search, String tag, int offset, Integer size);
 }
