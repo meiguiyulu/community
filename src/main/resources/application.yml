@@ -3,7 +3,14 @@ github:
     id: 2621a871020011aad38a
     secret: 70ae172ca03595172acb6306b9bba8ddbcade7d9
   redirect:
-    url: http://localhost:8080/callback
+    url: http://localhost:8080/callback/github
+
+gitee:
+  client:
+    id: 9b778148673d3394db628ffd9eeb272f936f83a9cd21eb82cdb5ccdd5008ef08
+    secret: 56057b84bbe00ac793189ca15e51c75a0a735950ea8196e4a9a11459b1a5e711
+  redirect:
+    url: http://localhost:8080/callback/gitee
 
 spring:
   datasource:

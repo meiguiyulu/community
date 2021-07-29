@@ -6,10 +6,10 @@ import java.io.Serializable;
  * (User)实体类
  *
  * @author makejava
- * @since 2021-07-23 11:10:31
+ * @since 2021-07-28 20:57:19
  */
 public class User implements Serializable {
-    private static final long serialVersionUID = 753486123054543421L;
+    private static final long serialVersionUID = 513426006081745249L;
 
     private Integer id;
 
@@ -26,6 +26,8 @@ public class User implements Serializable {
     private String bio;
 
     private String avatarUrl;
+
+    private String type;
 
 
     public Integer getId() {
@@ -90,6 +92,14 @@ public class User implements Serializable {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

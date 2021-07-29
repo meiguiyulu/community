@@ -26,7 +26,7 @@ public interface QuestionMapper {
     @Select("select count(1) from question")
     int count();
 
-    @Select("select * from question where creator = ${userId} order by gmt_create desc limit #{offset},c#{size}")
+    @Select("select * from question where creator = ${userId} order by gmt_create desc limit #{offset}, #{size}")
     List<Question> queryByUserId(Integer userId, int offset, Integer size);
 
     @Select("select count(1) from question where creator = #{userId}")

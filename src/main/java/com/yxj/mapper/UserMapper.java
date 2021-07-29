@@ -12,8 +12,8 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface UserMapper {
 
-    @Insert("insert into user(account_id, name, token, gmt_create, gmt_modify, avatar_url) " +
-            "values (#{accountId}, #{name}, #{token}, #{gmtCreate}, #{gmtModify}, #{avatarUrl})")
+    @Insert("insert into user(account_id, name, token, gmt_create, gmt_modify, avatar_url, type) " +
+            "values (#{accountId}, #{name}, #{token}, #{gmtCreate}, #{gmtModify}, #{avatarUrl}, #{type})")
     void insertUser(User user);
 
 
@@ -23,8 +23,8 @@ public interface UserMapper {
     @Select("select * from user where id = #{id}")
     User findById(@Param("id")Integer id);
 
-    @Select("select * from user where account_id = #{accountId}")
-    User findByAccountId(String accountId);
+    @Select("select * from user where account_id = #{accountId} and type = #{type}")
+    User findByAccountIdAndType(String accountId, String type);
 
     @Update("update user set gmt_modify=#{gmtModify}, avatar_url=#{avatarUrl}," +
             "name=#{name}, token=#{token} where account_id = #{accountId}")

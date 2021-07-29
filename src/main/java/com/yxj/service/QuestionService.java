@@ -45,7 +45,7 @@ public class QuestionService {
         }
 
         PageDTO pageDTO = new PageDTO();
-        Integer totalCount = 0;
+        Integer totalCount;
 
         if (isSearchEmpty && isTagEmpty){
             // 如果没有搜索 并且没有传入标签
@@ -73,7 +73,7 @@ public class QuestionService {
 
         int offset = size * (page - 1);
 
-        List<Question> questions = null;
+        List<Question> questions;
         if (isSearchEmpty && isTagEmpty){
             // 如果没有搜索 没有标签
             questions = questionMapper.queryAll(offset, size);
@@ -106,11 +106,12 @@ public class QuestionService {
         Integer totalCount = questionMapper.countByUseId(userId);
         pageDTO.setPagination(totalCount, page, size);
 
-        if (page < 1){
-            page = 1;
-        }
         if (page > pageDTO.getTotalPage()){
             page = pageDTO.getTotalPage();
+        }
+
+        if (page < 1){
+            page = 1;
         }
 
         int offset = size * (page - 1);

@@ -59,6 +59,13 @@
     "shortType" : null,
     "custom" : false,
     "ext" : { }
+  }, {
+    "name" : "type",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
   } ],
   "pkColumn" : null,
   "otherColumn" : null,
